@@ -1,0 +1,10 @@
+def revnum(i):
+    if i == 0:
+        return ""
+    else:
+        return revnum(i - 1) + str(i) 
+
+
+if __name__ == '__main__':
+    n = int(input())
+    print(revnum(n))
