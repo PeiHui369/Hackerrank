@@ -1,0 +1,113 @@
+@
+    public static List<Integer> reverseArray(List<Integer> a) {
+        Collections.reverse(a);
+        return a;    
+    }
+
+@
+public static int hourglassSum(List<List<Integer>> arr) {
+    int maxSum = Integer.MIN_VALUE;
+
+    for (int i = 0; i < arr.size() - 2; i++) {
+        for (int j = 0; j < arr.get(i).size() - 2; j++) {
+            // Calculate the sum of the current hourglass
+            int sum = arr.get(i).get(j) + arr.get(i).get(j + 1) + arr.get(i).get(j + 2)
+                    + arr.get(i + 1).get(j + 1)
+                    + arr.get(i + 2).get(j) + arr.get(i + 2).get(j + 1) + arr.get(i + 2).get(j + 2);
+
+            // Update the maximum sum if necessary
+            maxSum = Math.max(maxSum, sum);
+        }
+    }
+
+    return maxSum;
+}
+
+@
+    public static List<Integer> dynamicArray(int n, List<List<Integer>> queries) {
+    List<List<Integer>> arr = new ArrayList<>();
+    List<Integer> ans = new ArrayList<>();
+    int lastAnswer = 0;
+
+    // Initialize the list of lists (arr)
+    for (int i = 0; i < n; i++) {
+        arr.add(new ArrayList<>());
+    }
+
+    for (List<Integer> query : queries) {
+        int queryType = query.get(0);
+        int x = query.get(1);
+        int y = query.get(2);
+        int idx = (x ^ lastAnswer) % n;
+
+        if (queryType == 1) {
+            arr.get(idx).add(y);
+        } else {
+            int listIdx = y % arr.get(idx).size();
+            lastAnswer = arr.get(idx).get(listIdx);
+            ans.add(lastAnswer);
+        }
+    }
+    return ans;
+}
+
+============
+LINKED LIST
+============
+@
+static void printLinkedList(SinglyLinkedListNode head) {
+        SinglyLinkedListNode pointer = head;
+        while (pointer != null) {
+            System.out.println(pointer.data);
+            pointer = pointer.next;
+        }
+    }
+
+@
+static SinglyLinkedListNode insertNodeAtTail (SinglyLinkedListNode head, int data) {
+    SinglyLinkedListNode newNode = new SinglyLinkedListNode(data);
+    if (head == null){
+        head = newNode;
+    }else{
+        SinglyLinkedListNode pointer = head;
+        while (pointer.next != null){
+            pointer = pointer.next;
+        }
+        pointer.next = newNode;
+    }
+    return head;
+}
+
+@
+static SinglyLinkedListNode insertNodeAtHead(SinglyLinkedListNode llist, int data) {
+    SinglyLinkedListNode newNode = new SinglyLinkedListNode(data);
+    if (llist == null) {
+        llist = newNode;
+    }else{
+        newNode.next = llist;
+        llist = newNode;
+    
+    }
+    return llist;
+    }
+
+@
+public static SinglyLinkedListNode insertNodeAtPosition (SinglyLinkedListNode llist, int data, int position) {
+        SinglyLinkedListNode newNode = new SinglyLinkedListNode(data);
+
+            if (position == 0) {
+                newNode.next = llist;
+                return newNode;
+            }
+
+            int counter = 1;
+            SinglyLinkedListNode current = llist;
+            while (counter != position) {
+                current = current.next;
+                counter++;
+            }
+
+            newNode.next = current.next;
+            current.next = newNode;
+            return llist;
+        }
