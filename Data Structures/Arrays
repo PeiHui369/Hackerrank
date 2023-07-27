@@ -92,6 +92,186 @@ static SinglyLinkedListNode insertNodeAtHead(SinglyLinkedListNode llist, int dat
     }
 
 @
+public static SinglyLinkedListNode deleteNode(SinglyLinkedListNode llist, int position) {
+    if (position == 0) {
+        return llist.next;
+    }
+
+    SinglyLinkedListNode pointer = llist;
+    int counter = 1;
+
+    while (counter != position) {
+        counter++;
+        pointer = pointer.next;
+    }
+
+    pointer.next = pointer.next.next;
+    return llist;
+}
+
+@
+    public static void reversePrint(SinglyLinkedListNode llist) {
+        if (llist == null) {return;}
+        reversePrint(llist.next);
+        System.out.println(llist.data);
+
+    }
+
+@
+static boolean compareLists(SinglyLinkedListNode head1, SinglyLinkedListNode head2) {
+    SinglyLinkedListNode first = head1;
+    SinglyLinkedListNode second = head2;
+    while (first.next != null && second.next != null){
+        if(first.data != second.data){
+            return false;
+        }
+        first = first.next;
+        second = second.next;
+    }
+    if (first.next == null && second.next == null){
+        return true;
+    }
+    return false;
+    }
+
+@
+    static SinglyLinkedListNode mergeLists(SinglyLinkedListNode head1, SinglyLinkedListNode head2) {
+    
+    if(head1 == null) {return head2;}
+    if(head2 == null) {return head1;}
+    SinglyLinkedListNode mergedList;
+    if (head1.data <= head2.data) {
+        mergedList = head1;
+        mergedList.next = mergeLists(head1.next, head2);
+    }else{
+        mergedList = head2;
+        mergedList.next = mergeLists(head1, head2.next);
+    }
+    return mergedList;
+    }
+
+@
+public static int getNode(SinglyLinkedListNode llist, int positionFromTail) {
+    // Write your code here
+    SinglyLinkedListNode mainPointer = llist;
+    SinglyLinkedListNode refPointer = llist;
+    
+    for (int i = 0; i < positionFromTail; i++){
+        if (refPointer == null){
+            return -1;
+        }
+        refPointer = refPointer.next;
+    }
+    while (refPointer.next != null) {
+        mainPointer = mainPointer.next;
+        refPointer = refPointer.next;
+    
+    }
+    return mainPointer.data;
+    }
+
+@
+public static SinglyLinkedListNode removeDuplicates(SinglyLinkedListNode llist) {
+    // Write your code here
+        SinglyLinkedListNode current = llist;
+        
+        while (current != null && current.next != null){
+            if (current.data == current.next.data) {
+                current.next = current.next.next;
+            }else{
+            current = current.next;
+            }
+        }
+        return llist;
+    }
+
+@
+static boolean hasCycle(SinglyLinkedListNode head) {
+        if (head == null || head.next == null) {return false;}
+        SinglyLinkedListNode slow = head;
+        SinglyLinkedListNode fast = head.next;
+        
+        while (fast!=null && fast.next != null){
+            if (slow == fast) {return true;}
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return false;
+    }
+
+@ find merge node
+static int findMergeNode(SinglyLinkedListNode head1, SinglyLinkedListNode head2) {
+    int length1 = getLength(head1);
+    int length2 = getLength(head2);
+
+    // Move the pointer of the longer list ahead by the difference in lengths
+    if (length1 > length2) {
+        int diff = length1 - length2;
+        while (diff > 0) {
+            head1 = head1.next;
+            diff--;
+        }
+    } else {
+        int diff = length2 - length1;
+        while (diff > 0) {
+            head2 = head2.next;
+            diff--;
+        }
+    }
+
+    // Iterate through both lists together until the common node (merge point) is found
+    while (head1 != head2) {
+        head1 = head1.next;
+        head2 = head2.next;
+    }
+
+    // Return the data value of the common node
+    return head1.data;
+}
+
+static int getLength(SinglyLinkedListNode head) {
+    int length = 0;
+    while (head != null) {
+        length++;
+        head = head.next;
+    }
+    return length;
+}
+
+@ Sorted Insert
+public static DoublyLinkedListNode sortedInsert(DoublyLinkedListNode llist, int data) {
+    DoublyLinkedListNode newNode = new DoublyLinkedListNode(data);
+
+    if (llist == null || data <= llist.data) {
+        // Case 1: Inserting at the beginning (newNode becomes the new head)
+        newNode.next = llist;
+        if (llist != null) {
+            llist.prev = newNode;
+        }
+        return newNode;
+    }
+
+    DoublyLinkedListNode current = llist;
+
+    // Traverse the list to find the correct position for the new node
+    while (current.next != null && current.next.data < data) {
+        current = current.next;
+    }
+
+    // Insert the new node before the current node (current.next)
+    newNode.next = current.next;
+    if (current.next != null) {
+        current.next.prev = newNode;
+    }
+    current.next = newNode;
+    newNode.prev = current;
+
+    return llist;
+}
+
+
+
+@
 public static SinglyLinkedListNode insertNodeAtPosition (SinglyLinkedListNode llist, int data, int position) {
         SinglyLinkedListNode newNode = new SinglyLinkedListNode(data);
 
